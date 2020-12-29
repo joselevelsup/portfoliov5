@@ -1,65 +1,59 @@
+import { useState } from "react";
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faUserCog, faSkull, faPowerOff, faFolder } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
+  const [poweredOn, setPoweredOn] = useState(false);
+  const [hacked, setHacked] = useState(false);
+
+  const [ modules, setActiveModule ] = useState({
+    about: false,
+    skills: false
+  });
+
+  const makeModuleActive = (module, active = true) => {
+    setActiveModule({
+      ...modules,
+      [module]: active
+    });
+  }
+
   return (
-    <div className={styles.container}>
+    <div className={`container ${poweredOn ? "powered-on" : "powered-off"}` }>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="overlay">AV-1</div>
+			<div className="screen">
+				<div className="modules-container">
+					<div className="module">
+						<FontAwesomeIcon icon={faUser} />
+            <p className="module-description">User</p>
+					</div>
+					<div className="module">
+						<FontAwesomeIcon icon={faUserCog} />
+            <p className="module-description">User Skills</p>
+					</div>
+          <div className={`module ${hacked ? "power-off" : ""}`}>
+            <FontAwesomeIcon icon={hacked ? faFolder : faSkull} />
+            <p className="module-description">Locked</p>
+          </div>
+				</div>
+			</div>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+			<div className="controls">
+        <div className="modules-container">
+          <label htmlFor="switch">
+            <div className={`module no-border small pulse ${poweredOn ? "power-off" : ""}`}>
+							<FontAwesomeIcon icon={faPowerOff} />
+            </div>
+          </label>
+          <input id="switch" type="checkbox" onChange={() => setPoweredOn(!poweredOn)} style={{ visibility: "hidden" }} defaultChecked={poweredOn} />
         </div>
-      </main>
+			</div>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
     </div>
   )
 }
