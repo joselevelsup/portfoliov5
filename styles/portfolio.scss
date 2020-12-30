@@ -221,6 +221,7 @@ body {
 		}
 
 		&.power-off{
+			border-color: $primary-red;
 			.module-description {
 				color: $primary-red;
 			}
