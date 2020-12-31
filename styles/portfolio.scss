@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
 $ease-out-quint:cubic-bezier(0.230, 1.000, 0.320, 1.000);
 $ease-in-quint:cubic-bezier(0.755, 0.050, 0.855, 0.060);
 $screen-background:#121010;
@@ -204,6 +206,7 @@ body {
 		.module-description {
 			text-align: center;
 			color: white;
+			font-family: "Share Tech Mono", monospace;
 		}
 
 		&.small {
@@ -245,4 +248,165 @@ body {
 	animation-name: pulse ;
 	animation-duration: 3s;
 	animation-iteration-count: infinite;
+}
+
+button.btn-transparent {
+	background-color: transparent;
+	color: $primary-green;
+	width: 50px;
+	height: 40px;
+
+	svg {
+		width: 25px;
+		height: 25px;
+	}
+
+	&.btn-outline-primary {
+		border: 2px solid $primary-green;
+		border-radius: 3px;
+	}
+}
+
+.ReactModal__Overlay {
+	background-color: rgba(0, 0, 0, 0.75)!important;
+
+	.ReactModal__Content {
+		padding: 0px !important;
+		background-color: black!important;
+		border-color: $primary-green!important;
+		border-width: 2px!important;
+		width: 50%;
+		height: 55%;
+		box-shadow: 0px -2px 37px $primary-green;
+
+		div.Typewriter {
+			span.Typewriter__wrapper {
+				color: $primary-green;
+				font-family: "Share Tech Mono";
+			}
+			span.Typewriter__cursor {
+				color: $primary-green;
+			}
+		}
+
+		.modal-header, .modal-body {
+			font-family: "Share Tech Mono";
+		}
+
+		.modal-header {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			vertical-align: center;
+			color: black;
+			background-color: $primary-green;
+			padding: 0 10px;
+
+			.modal-header-button {
+				cursor: pointer;
+				width: 30px;
+				height: 30px;
+				background-color: transparent;
+				border-color: transparent;
+				margin: auto 0;
+
+				svg {
+					width: 15px;
+					height: 15px;
+					color: black;
+					display: block;
+					margin: auto;
+				}
+			}
+		}
+
+		.modal-body {
+			color: $primary-green;
+			padding: 10px;
+			.img-container {
+				margin: 0 auto;
+
+				&.profile-img {
+					width: 125px;
+				}
+
+				&.project-img {
+					width: 250px;
+				}
+
+				img {
+					border-radius: 5px;
+				}
+			}
+
+			.profile-container {
+				display: flex;
+				flex-direction: row;
+
+				div {
+					flex-grow: 1;
+					margin: 5px 10px;
+					a {
+						color: $primary-green;
+						text-decoration: none;
+					}
+					span {
+						margin: 0 2px;
+						text-decoration: underline;
+					}
+				}
+			}
+		}
+	}
+}
+
+.user {
+	.ReactModal__Content {
+		inset: 7%!important;
+	}
+}
+
+.skills {
+	.ReactModal__Content {
+		inset: 5% 20%!important;
+	}
+}
+
+.projects {
+	.ReactModal__Content {
+		width: 60%;
+		height: 55%;
+		inset: 20% 5%!important;
+
+		.projects-container {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+
+			.project {
+				position: relative;
+				margin: 3px 8px;
+
+				button {
+					position: absolute;
+					bottom: 10px;
+					right: 10px;
+					z-index: 1;
+				}
+			}
+		}
+	}
+}
+
+.skill-container {
+	padding: 3% 6%;
+}
+
+.progress-bar-container {
+	display: flex;
+	flex-direction: column;
+
+	p {
+		text-decoration: underline;
+	}
 }
