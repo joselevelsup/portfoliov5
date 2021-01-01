@@ -6,6 +6,8 @@ import { faUser, faUserCog, faSkull, faPowerOff, faFolder, faTimes, faInfoCircle
 import Modal from "react-modal";
 import Typewriter from "typewriter-effect";
 
+Modal.setAppElement("body");
+
 function DisplayModal({ isOpen, title = "", modalClassName = "", toggleActiveModal, activeLoading = true, delay = 1500, children }){
   const [ loading, setLoading ] = useState(activeLoading);
 
@@ -50,16 +52,23 @@ function DynamicProgressBar({ title = "", progressBarWidth = 20, progressBarHeig
 						<div id="block" style={{ marginRight: 1, width: 1, height: progressBarHeight, display: "inline-block", backgroundColor: "#66ff66" }} />
 					))
 				}
-
 			</div>
     </div>
   )
 }
 
 export default function Portfolio() {
+	const listOfPhrases = [
+		"Encrypting Drives...................ENCRYPTED",
+		"<br/>Checking Partitions.................Partitions OK",
+		"<br/>Clearing MemPages...................MemPages CLEARED",
+		"<br/>You not in a hurry..................are you?"
+	];
+
   const [poweredOn, setPoweredOn] = useState(false);
   const [hacked, setHacked] = useState(false);
   const [imageCanBeShowed, showImage] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [ modules, setActiveModule ] = useState({
     hackSim: false,
@@ -91,11 +100,13 @@ export default function Portfolio() {
     });
   }
 
-  const randomPhrases = () => {
-
+  const togglePower = () => {
+    setLoading(true);
+    setPoweredOn(!poweredOn);
   }
 
   const { hackSim, about, skills, projects } = modules;
+  const { hosted, archetype, portion, moment, tastemakers, breach } = currentProjects;
 
   return (
     <div className={`container ${poweredOn ? "powered-on" : "powered-off"}` }>
@@ -108,36 +119,53 @@ export default function Portfolio() {
 
 			<div className="screen">
 				<div className="modules-container">
-					<div className="module" onClick={() => makeModuleActive("about")}>
-						<FontAwesomeIcon icon={faUser} />
-            <p className="module-description">User</p>
-					</div>
-					<div className="module" onClick={() => makeModuleActive("skills")}>
-						<FontAwesomeIcon icon={faUserCog} />
-            <p className="module-description">User Skills</p>
-					</div>
-          <div className="module" onClick={() => makeModuleActive("projects")}>
-            <FontAwesomeIcon icon={faFolder} />
-            <p className="module-description">Projects</p>
-          </div>
-          <div className={`module ${hacked ? "" : "power-off"}`} onClick={() => makeModuleActive("hackSim")}>
-            <FontAwesomeIcon icon={hacked ? faFolder : faSkull} />
-            <p className="module-description">Locked</p>
-          </div>
+          {
+          poweredOn && loading ?
+						<Typewriter
+							onInit={(typewriter) => {
+                for(let i = 0; i < listOfPhrases.length; i++){
+									typewriter.typeString(listOfPhrases[i]).pauseFor(1000).callFunction(() => {
+										if(i +1 == listOfPhrases.length){
+											setLoading(false);
+										}
+                  }).start();
+                }
+							}}
+              options={{
+                autoStart: true
+              }}
+						/>
+            :
+            <>
+							<div className="module" onClick={() => makeModuleActive("about")}>
+								<FontAwesomeIcon icon={faUser} />
+								<p className="module-description">User</p>
+							</div>
+							<div className="module" onClick={() => makeModuleActive("skills")}>
+								<FontAwesomeIcon icon={faUserCog} />
+								<p className="module-description">User Skills</p>
+							</div>
+							<div className="module" onClick={() => makeModuleActive("projects")}>
+								<FontAwesomeIcon icon={faFolder} />
+								<p className="module-description">Projects</p>
+							</div>
+							<div className={`module ${hacked ? "" : "power-off"}`} onClick={() => makeModuleActive("hackSim")}>
+								<FontAwesomeIcon icon={hacked ? faFolder : faSkull} />
+								<p className="module-description">Locked</p>
+							</div>
+            </>
+          }
 				</div>
 			</div>
 
 			<div className="controls">
-        <div className="read-write">
-          {randomPhrases()}
-        </div>
         <div className="modules-container">
           <label htmlFor="switch">
             <div className={`module no-border small ${poweredOn ? "pulse power-off" : ""}`}>
 							<FontAwesomeIcon icon={faPowerOff} />
             </div>
           </label>
-          <input id="switch" type="checkbox" onChange={() => setPoweredOn(!poweredOn)} style={{ visibility: "hidden" }} defaultChecked={poweredOn} />
+          <input id="switch" type="checkbox" onChange={() => togglePower() } style={{ visibility: "hidden" }} defaultChecked={poweredOn} />
         </div>
 			</div>
 
@@ -282,6 +310,14 @@ export default function Portfolio() {
                 </button>
               </div>
             </div>
+            <DisplayModal
+              isOpen={hosted}
+              modalClassName="project"
+              title="Hosted App"
+              toggleActiveModal={() => makeActiveProject("hosted", false)}
+            >
+              <></>
+            </DisplayModal>
           </DisplayModal>
       }
     </div>
