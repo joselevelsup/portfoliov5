@@ -49,7 +49,7 @@ function DynamicProgressBar({ title = "", progressBarWidth = 20, progressBarHeig
 			<div style={{ width: progressBarWidth * 10, height: progressBarHeight, backgroundColor: "transparent", border: "1px solid #66ff66" }}>
 				{
 					blockArray.map(b => (
-						<div id="block" style={{ marginRight: 1, width: 1, height: progressBarHeight, display: "inline-block", backgroundColor: "#66ff66" }} />
+						<div key={b} id="block" style={{ marginRight: 1, width: 1, height: progressBarHeight, display: "inline-block", backgroundColor: "#66ff66" }} />
 					))
 				}
 			</div>
@@ -352,6 +352,7 @@ export default function Portfolio({ portfolioProjects }) {
 									modalClassName="project"
 									title={project.projectName || project.projectClient}
 									toggleActiveModal={() => makeActiveProject(project.key, false)}
+                  key={project.key}
 								>
 									<div className="project-description-1">
 										<div>
