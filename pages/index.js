@@ -57,7 +57,71 @@ function DynamicProgressBar({ title = "", progressBarWidth = 20, progressBarHeig
   )
 }
 
-export default function Portfolio() {
+export function getStaticProps(){
+  const props = {};
+
+  props.portfolioProjects = [
+    {
+      key: "tastemakers",
+      projectName: "Tastemakers Africa",
+      projectClient: "Tastemakers Africa",
+      projectTechnologies: "React, Next.js, Express.js, MySQL, Sequelize, Cypress, Mocha, Chai",
+      projectDescription: "Online and IRL experiences connecting Africa and the diaspora.",
+      projectLink: "https://tastemakersafrica.com",
+      projectImage: "/tastemakers.png"
+    },
+    {
+      key: "moment",
+      projectName: "Moment",
+      projectClient: "Moment",
+      projectTechnologies: "WebVR, React, Express.js, Redux",
+      projectDescription: "This project was to allow the Moment scenes to be viewed in the web by logging into a moment account",
+      projectLink: "",
+      projectImage: "/moment.png"
+    },
+    {
+      key: "hosted",
+      projectName: "Hosted",
+      projectClient: "Jocqui Smollett",
+      projectTechnologies: "MongoDB, Socket.io, Angular.js, Express.js, Node.js, Stripe, AWS S3",
+      projectDescription: "Hosted allows you to book spaces and services, and/or plan events. You will be able to message the person in charge of the space or the person who is offering the service to get a feel of the space or person. From the messages, you can offer to purchase the space or pay the person for their services for a specific amount of time.",
+      projectLink: "https://hostedapp.io",
+      projectImage: "/hosted.png"
+    },
+    {
+      key: "breach",
+      projectName: "React Cyberpunk Breach",
+      projectClient: "Myself",
+      projectTechnologies: "React",
+      projectDescription: "A simple remake of a minigame from Cyberpunk 2077",
+      projectLink: "https://github.com/joselevelsup/react-cyberpunk-breach",
+      projectImage: "/github.jpg"
+    },
+    {
+      key: "collectively",
+      projectName: "",
+      projectClient: "Collectively",
+      projectDescription: "Worked with this startup to help other clients and build their platforms in both Business and Technology",
+      projectTechnologies: "React, Express.js, MySQL, Sequelize, Redux, Mocha, Chai",
+      projectLink: "",
+      projectImage: "/collectively.png"
+    },
+    {
+      key: "portion",
+      projectName: "Portion",
+      projectClient: "Portion",
+      projectDescription: "Portion is the art world's bridge into the new world of cryptocurrency. Through Portion’s smart contracts and distributed technology, the art market is liberated into a free market.",
+      projectLink: "https://portion.io",
+      projectImage: "/portion.jpg"
+    }
+  ]
+
+  return {
+    props
+  }
+}
+
+export default function Portfolio({ portfolioProjects }) {
 	const listOfPhrases = [
 		"Encrypting Drives...................ENCRYPTED",
 		"<br/>Checking Partitions.................Partitions OK",
@@ -79,11 +143,11 @@ export default function Portfolio() {
 
   const [ currentProjects, setActiveProject ] = useState({
     hosted: false,
-    archetype: false,
     portion: false,
     moment: false,
     tastemakers: false,
-    breach: false
+    breach: false,
+    collectively: false
   });
 
   const makeModuleActive = (module, active = true) => {
@@ -106,7 +170,6 @@ export default function Portfolio() {
   }
 
   const { hackSim, about, skills, projects } = modules;
-  const { hosted, archetype, portion, moment, tastemakers, breach } = currentProjects;
 
   return (
     <div className={`container ${poweredOn ? "powered-on" : "powered-off"}` }>
@@ -269,55 +332,49 @@ export default function Portfolio() {
             toggleActiveModal={() => makeModuleActive("projects", false)}
           >
             <div className="projects-container">
-              <div className="project">
-                <div className="img-container project-img">
-									<Image src="/tastemakers.png" layout="responsive" width="1500" height="700"/>
-                </div>
-                <button className="btn-transparent btn-outline-primary" onClick={() => makeActiveProject("hosted")}>
-                  <FontAwesomeIcon icon={faInfoCircle} />
-                </button>
-              </div>
-              <div className="project">
-                <div className="img-container project-img">
-									<Image src="/hosted.png" layout="responsive" width="1200" height="700"/>
-                </div>
-                <button className="btn-transparent btn-outline-primary" onClick={() => makeActiveProject("hosted")}>
-                  <FontAwesomeIcon icon={faInfoCircle} />
-                </button>
-              </div>
-              <div className="project">
-                <div className="img-container project-img">
-									<Image src="/archetype.jpg" layout="responsive" width="1200" height="700"/>
-                </div>
-                <button className="btn-transparent btn-outline-primary" onClick={() => makeActiveProject("archetype")}>
-                  <FontAwesomeIcon icon={faInfoCircle} />
-                </button>
-              </div>
-              <div className="project">
-                <div className="img-container project-img">
-									<Image src="/moment.png" layout="responsive" width="1200" height="700"/>
-                </div>
-                <button className="btn-transparent btn-outline-primary" onClick={() => makeActiveProject("moment")}>
-                  <FontAwesomeIcon icon={faInfoCircle} />
-                </button>
-              </div>
-              <div className="project">
-                <div className="img-container project-img">
-									<Image src="/portion.jpg" layout="responsive" width="1200" height="700"/>
-                </div>
-                <button className="btn-transparent btn-outline-primary" onClick={() => makeActiveProject("portion")}>
-                  <FontAwesomeIcon icon={faInfoCircle} />
-                </button>
-              </div>
+              {
+                portfolioProjects.map(project => (
+									<div className="project-item" key={project.key}>
+										<div className="img-container project-img">
+											<Image src={project.projectImage} layout="responsive" width="1500" height="700"/>
+										</div>
+										<button className="btn-transparent btn-outline-primary" onClick={() => makeActiveProject(project.key)}>
+											<FontAwesomeIcon icon={faInfoCircle} />
+										</button>
+									</div>
+                ))
+              }
             </div>
-            <DisplayModal
-              isOpen={hosted}
-              modalClassName="project"
-              title="Hosted App"
-              toggleActiveModal={() => makeActiveProject("hosted", false)}
-            >
-              <></>
-            </DisplayModal>
+            {
+            	portfolioProjects.map(project => (
+								<DisplayModal
+									isOpen={currentProjects[project.key]}
+									modalClassName="project"
+									title={project.projectName || project.projectClient}
+									toggleActiveModal={() => makeActiveProject(project.key, false)}
+								>
+									<div className="project-description-1">
+										<div>
+											Client: <br/>
+											{project.projectClient}
+										</div>
+										<div>
+											Technologies: <br />
+											{project.projectTechnologies}
+										</div>
+									</div>
+									<div className="project-description-2">
+										<h4>Quick Summary</h4>
+										<p>{project.projectDescription}</p>
+									</div>
+									<div className="project-footer">
+										<a href={project.projectLink} className="live-site-button">
+											Live Site
+										</a>
+									</div>
+								</DisplayModal>
+              ))
+            }
           </DisplayModal>
       }
     </div>
