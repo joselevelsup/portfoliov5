@@ -250,7 +250,7 @@ body {
 	animation-iteration-count: infinite;
 }
 
-button.btn-transparent {
+.btn-transparent {
 	background-color: transparent;
 	color: $primary-green;
 	width: 50px;
@@ -276,6 +276,7 @@ div.Typewriter {
 		color: $primary-green;
 	}
 }
+
 .ReactModal__Overlay {
 	background-color: rgba(0, 0, 0, 0.75)!important;
 
@@ -395,12 +396,32 @@ div.Typewriter {
 				}
 			}
 		}
+
 	}
 }
 
 .project {
 	.ReactModal__Content {
 		inset: 30% 10%;
+		h4 {
+			margin: 0;
+			text-decoration: underline;
+		}
+		.project-description-1 {
+			display: flex;
+			div:first-child {
+				width: 200px;
+			}
+		}
+
+		.project-footer{
+			margin: 10%;
+			text-align: center;
+			.btn-transparent {
+				padding: 10px;
+				text-decoration: none;
+			}
+		}
 	}
 }
 
@@ -414,5 +435,34 @@ div.Typewriter {
 
 	p {
 		text-decoration: underline;
+	}
+}
+
+.hackSim{
+	.ReactModal__Content {
+		height: 65%;
+	}
+	.quickhack{
+		.main{
+			background-color: transparent;
+		}
+
+		.highlighted{
+			background-color: $primary-green!important;
+			div {
+				color: black!important;
+			}
+		}
+	}
+}
+
+.unlockedFolder {
+	.ReactModal__Content {
+		height: 65%;
+		width: 65%;
+
+		.img-container{
+			width: 500px;
+		}
 	}
 }

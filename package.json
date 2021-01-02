@@ -11,6 +11,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.14",
+    "cyberpunk-quickhack": "github:joselevelsup/react-cyberpunk-breach",
     "next": "10.0.4",
     "react": "17.0.1",
     "react-dom": "17.0.1",

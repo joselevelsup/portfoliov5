@@ -2,9 +2,10 @@ import { useState } from "react";
 import Head from 'next/head'
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faUserCog, faSkull, faPowerOff, faFolder, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faUserCog, faSkull, faPowerOff, faFolder, faFile, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import Typewriter from "typewriter-effect";
+import QuickHackBreach from "cyberpunk-quickhack";
 
 Modal.setAppElement("body");
 
@@ -74,8 +75,8 @@ export function getStaticProps(){
       key: "moment",
       projectName: "Moment",
       projectClient: "Moment",
-      projectTechnologies: "WebVR, React, Express.js, Redux",
-      projectDescription: "This project was to allow the Moment scenes to be viewed in the web by logging into a moment account",
+      projectTechnologies: "WebVR, Three.js, Firebase, React, Express.js, Redux",
+      projectDescription: "This project was to allow Moment VR scenes to be viewed in the web by logging into a moment account",
       projectLink: "",
       projectImage: "/moment.png"
     },
@@ -122,7 +123,7 @@ export function getStaticProps(){
 }
 
 export default function Portfolio({ portfolioProjects }) {
-	const listOfPhrases = [
+  const listOfPhrases = [
 		"Encrypting Drives...................ENCRYPTED",
 		"<br/>Checking Partitions.................Partitions OK",
 		"<br/>Clearing MemPages...................MemPages CLEARED",
@@ -136,6 +137,7 @@ export default function Portfolio({ portfolioProjects }) {
 
   const [ modules, setActiveModule ] = useState({
     hackSim: false,
+    unlockedFolder: false,
     about: false,
     skills: false,
     projects: false
@@ -169,7 +171,7 @@ export default function Portfolio({ portfolioProjects }) {
     setPoweredOn(!poweredOn);
   }
 
-  const { hackSim, about, skills, projects } = modules;
+  const { hackSim, about, skills, projects, unlockedFolder } = modules;
 
   return (
     <div className={`container ${poweredOn ? "powered-on" : "powered-off"}` }>
@@ -212,9 +214,9 @@ export default function Portfolio({ portfolioProjects }) {
 								<FontAwesomeIcon icon={faFolder} />
 								<p className="module-description">Projects</p>
 							</div>
-							<div className={`module ${hacked ? "" : "power-off"}`} onClick={() => makeModuleActive("hackSim")}>
-								<FontAwesomeIcon icon={hacked ? faFolder : faSkull} />
-								<p className="module-description">Locked</p>
+							<div className={`module ${hacked ? "" : "power-off"}`} onClick={hacked ? () => makeModuleActive("unlockedFolder") : () => makeModuleActive("hackSim")}>
+								<FontAwesomeIcon icon={hacked ? faFile : faSkull} />
+								<p className="module-description">{hacked ? "Secret File" : "Locked"}</p>
 							</div>
             </>
           }
@@ -236,13 +238,32 @@ export default function Portfolio({ portfolioProjects }) {
       hackSim &&
           <DisplayModal
             isOpen={hackSim}
-            title="Unlock the Module"
-            content={<></>}
+            title="Unlock the Folder"
+            modalClassName="hackSim"
             toggleActiveModal={() => makeModuleActive("hackSim", false)}
           >
-        </DisplayModal>
-      }
+            <QuickHackBreach solvedFunction={setHacked} />
+            <br />
+            <div className="quickhack-description">
+							The code matrix has rows of characters grouped together in twos. The buffer box on the right is where the characters you've selected will be displayed, so you can keep track of where you are in the sequence. Below it is the list of sequences you can recreate.
 
+							When you first start, the top row will be highlighted. This means it's currently the active zone, so you can only pick the options in this row. Each time you enter a pair of characters, the active zone will alternate between the column you just selected, or the row. So, if your first input is in the top row, third column, you'll only be able to select the characters in the third column when inputting the next part of the sequence.
+            </div>
+          </DisplayModal>
+      }
+      {
+      unlockedFolder &&
+          <DisplayModal
+            isOpen={unlockedFolder}
+            title="Secret File"
+            modalClassName="unlockedFolder"
+            toggleActiveModal={() => makeModuleActive("unlockedFolder", false)}
+          >
+            <div className="img-container">
+							<Image src="/alien.png" layout="responsive" width="500" height="500" />
+            </div>
+          </DisplayModal>
+      }
       {
       about &&
           <DisplayModal
@@ -347,33 +368,40 @@ export default function Portfolio({ portfolioProjects }) {
             </div>
             {
             	portfolioProjects.map(project => (
-								<DisplayModal
-									isOpen={currentProjects[project.key]}
-									modalClassName="project"
-									title={project.projectName || project.projectClient}
-									toggleActiveModal={() => makeActiveProject(project.key, false)}
-                  key={project.key}
-								>
-									<div className="project-description-1">
-										<div>
-											Client: <br/>
-											{project.projectClient}
-										</div>
-										<div>
-											Technologies: <br />
-											{project.projectTechnologies}
-										</div>
-									</div>
-									<div className="project-description-2">
-										<h4>Quick Summary</h4>
-										<p>{project.projectDescription}</p>
-									</div>
-									<div className="project-footer">
-										<a href={project.projectLink} className="live-site-button">
-											Live Site
-										</a>
-									</div>
-								</DisplayModal>
+                <>
+                  {
+                    currentProjects[project.key] &&
+                      <DisplayModal
+												isOpen={currentProjects[project.key]}
+												modalClassName="project"
+												title={project.projectName || project.projectClient}
+												toggleActiveModal={() => makeActiveProject(project.key, false)}
+												key={project.key}
+											>
+												<div className="project-description-1">
+													<div>
+														<h4>Client:</h4> <br/>
+														{project.projectClient}
+													</div>
+													<div>
+														<h4>Technologies:</h4> <br />
+														{project.projectTechnologies}
+													</div>
+												</div>
+												<br />
+												<div className="project-description-2">
+													<h4>Quick Summary:</h4>
+													<p>{project.projectDescription}</p>
+												</div>
+												<div className="project-footer">
+													<a href={project.projectLink} className="btn-transparent btn-outline-primary">
+														Live Site
+													</a>
+												</div>
+											</DisplayModal>
+                  }
+                </>
+
               ))
             }
           </DisplayModal>
