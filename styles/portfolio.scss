@@ -194,6 +194,17 @@ body {
 	justify-content: center;
 	align-items: center;
 
+	&.col {
+		flex-direction: column;
+	}
+
+	.os-name {
+		text-align: center;
+		color: $primary-green;
+		font-family: "Share Tech Mono", monospace;
+		font-size: 36px;
+	}
+
 	.module{
 		cursor: pointer;
 		width: 100px;
@@ -289,6 +300,10 @@ div.Typewriter {
 		height: 55%;
 		box-shadow: 0px -2px 37px $primary-green;
 
+		@media screen and (max-width: 414px){
+			width: 95%!important;
+			height: 95%!important;
+		}
 
 		.modal-header, .modal-body {
 			font-family: "Share Tech Mono";
@@ -302,6 +317,12 @@ div.Typewriter {
 			color: black;
 			background-color: $primary-green;
 			padding: 0 10px;
+
+			@media screen and (max-width: 414px){
+				position: fixed;
+				width: 90%;
+				z-index: 2;
+			}
 
 			.modal-header-button {
 				cursor: pointer;
@@ -324,6 +345,10 @@ div.Typewriter {
 		.modal-body {
 			color: $primary-green;
 			padding: 10px;
+
+			@media screen and (max-width: 414px){
+				margin-top: 15%;
+			}
 			.img-container {
 				margin: 0 auto;
 
@@ -364,12 +389,25 @@ div.Typewriter {
 .user {
 	.ReactModal__Content {
 		inset: 7%!important;
+
+		@media screen and (max-width: 414px){
+			inset: 2%!important;
+
+			.profile-container {
+				flex-direction: column!important;
+			}
+		}
 	}
+
 }
 
 .skills {
 	.ReactModal__Content {
 		inset: 5% 20%!important;
+
+		@media screen and (max-width: 414px){
+			inset: 2%!important;
+		}
 	}
 }
 
@@ -379,10 +417,18 @@ div.Typewriter {
 		height: 55%;
 		inset: 20% 5%!important;
 
+		@media screen and (max-width: 414px){
+			inset: 2%!important;
+		}
+
 		.projects-container {
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
+
+			@media screen and (max-width: 414px){
+				justify-content: center;
+			}
 
 			.project-item {
 				position: relative;
@@ -403,14 +449,30 @@ div.Typewriter {
 .project {
 	.ReactModal__Content {
 		inset: 30% 10%;
+
+		@media screen and (max-width: 414px){
+			inset: 10% 2%!important;
+			height: 75%!important;
+		}
+
 		h4 {
 			margin: 0;
 			text-decoration: underline;
 		}
+
 		.project-description-1 {
 			display: flex;
+
 			div:first-child {
 				width: 200px;
+			}
+
+			@media screen and (max-width: 414px) {
+				flex-direction: column;
+
+				div {
+					margin-top: 10px;
+				}
 			}
 		}
 
@@ -441,8 +503,27 @@ div.Typewriter {
 .hackSim{
 	.ReactModal__Content {
 		height: 65%;
+		@media screen and (max-width: 414px){
+			inset: 2%!important;
+		}
 	}
 	.quickhack{
+		@media screen and (max-width: 414px){
+			flex-direction: column;
+
+			.to-solve {
+				display: flex;
+				p {
+					display: inline-block;
+					vertical-align: center;
+				}
+				ul > li {
+					display: inline-block;
+					float: left;
+					vertical-align: top;
+				}
+			}
+		}
 		.main{
 			background-color: transparent;
 		}
@@ -453,6 +534,10 @@ div.Typewriter {
 				color: black!important;
 			}
 		}
+
+		.code.solved {
+			border-color: $primary-green;
+		}
 	}
 }
 
@@ -460,6 +545,10 @@ div.Typewriter {
 	.ReactModal__Content {
 		height: 65%;
 		width: 65%;
+
+		@media screen and (max-width: 414px){
+			inset: 2%!important;
+		}
 
 		.img-container{
 			width: 500px;

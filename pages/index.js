@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from 'next/head'
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faUserCog, faSkull, faPowerOff, faFolder, faFile, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faUserCog, faSkull, faPowerOff, faFolder, faFileArchive, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import Typewriter from "typewriter-effect";
 import QuickHackBreach from "cyberpunk-quickhack";
@@ -134,6 +134,25 @@ export default function Portfolio({ portfolioProjects }) {
   const [hacked, setHacked] = useState(false);
   const [imageCanBeShowed, showImage] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [ deviceWidth, setDeviceWidth ] = useState(window.innerWidth);
+
+  const handleDeviceWidth = () => {
+    setDeviceWidth(window.innerWidth);
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleDeviceWidth);
+
+    return () => {
+      window.removeEventListener("resize", handleDeviceWidth);
+    }
+  }, [])
+
+  useEffect(() => {
+    if(hacked){
+      makeModuleActive("hackSim", false);
+    }
+  }, [hacked])
 
   const [ modules, setActiveModule ] = useState({
     hackSim: false,
@@ -171,6 +190,8 @@ export default function Portfolio({ portfolioProjects }) {
     setPoweredOn(!poweredOn);
   }
 
+  const isMobile = () => deviceWidth <= 768;
+
   const { hackSim, about, skills, projects, unlockedFolder } = modules;
 
   return (
@@ -183,23 +204,29 @@ export default function Portfolio({ portfolioProjects }) {
       <div className="overlay">3</div>
 
 			<div className="screen">
-				<div className="modules-container">
+				<div className={`modules-container ${poweredOn && loading ? "col": ""}`}>
           {
           poweredOn && loading ?
-						<Typewriter
-							onInit={(typewriter) => {
-                for(let i = 0; i < listOfPhrases.length; i++){
-									typewriter.typeString(listOfPhrases[i]).pauseFor(1000).callFunction(() => {
-										if(i +1 == listOfPhrases.length){
-											setLoading(false);
+              <>
+                <div className="os-name">
+                  JoselevelsupOS
+                </div>
+                <br />
+								<Typewriter
+									onInit={(typewriter) => {
+										for(let i = 0; i < listOfPhrases.length; i++){
+											typewriter.typeString(listOfPhrases[i]).pauseFor(1000).callFunction(() => {
+												if(i +1 == listOfPhrases.length){
+													setLoading(false);
+												}
+											}).start();
 										}
-                  }).start();
-                }
-							}}
-              options={{
-                autoStart: true
-              }}
-						/>
+									}}
+									options={{
+										autoStart: true
+									}}
+								/>
+              </>
             :
             <>
 							<div className="module" onClick={() => makeModuleActive("about")}>
@@ -215,7 +242,7 @@ export default function Portfolio({ portfolioProjects }) {
 								<p className="module-description">Projects</p>
 							</div>
 							<div className={`module ${hacked ? "" : "power-off"}`} onClick={hacked ? () => makeModuleActive("unlockedFolder") : () => makeModuleActive("hackSim")}>
-								<FontAwesomeIcon icon={hacked ? faFile : faSkull} />
+								<FontAwesomeIcon icon={hacked ? faFileArchive : faSkull} />
 								<p className="module-description">{hacked ? "Secret File" : "Locked"}</p>
 							</div>
             </>
@@ -259,6 +286,7 @@ export default function Portfolio({ portfolioProjects }) {
             modalClassName="unlockedFolder"
             toggleActiveModal={() => makeModuleActive("unlockedFolder", false)}
           >
+
             <div className="img-container">
 							<Image src="/alien.png" layout="responsive" width="500" height="500" />
             </div>
@@ -331,13 +359,13 @@ export default function Portfolio({ portfolioProjects }) {
             delay={500}
           >
             <div className="skill-container">
-							<DynamicProgressBar title="Node.js" progressBarWidth={36} progressBarHeight={15} amountOfBlocks={35}/>
+							<DynamicProgressBar title="Node.js" progressBarWidth={isMobile() ? 30 : 36} progressBarHeight={15} amountOfBlocks={isMobile() ? 29.5 : 35.5}/>
 
-							<DynamicProgressBar title="Express.js" progressBarWidth={36} progressBarHeight={15} amountOfBlocks={34}/>
+							<DynamicProgressBar title="Express.js" progressBarWidth={isMobile() ? 30 : 36} progressBarHeight={15} amountOfBlocks={isMobile() ? 28.5 : 34.5}/>
 
-							<DynamicProgressBar title="React/React Native" progressBarWidth={36} progressBarHeight={15} amountOfBlocks={34}/>
+							<DynamicProgressBar title="React/React Native" progressBarWidth={isMobile() ? 30 : 36} progressBarHeight={15} amountOfBlocks={isMobile() ? 27.5 : 34.5}/>
 
-							<DynamicProgressBar title="Python" progressBarWidth={36} progressBarHeight={15} amountOfBlocks={25} />
+							<DynamicProgressBar title="Python" progressBarWidth={isMobile() ? 30 : 36} progressBarHeight={15} amountOfBlocks={isMobile() ? 21.5 : 25.5} />
 
 							<DynamicProgressBar title="Learning and Having Fun" progressBarWidth={30} progressBarHeight={15} />
             </div>
