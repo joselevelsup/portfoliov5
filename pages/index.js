@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import Head from 'next/head'
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faUserCog, faSkull, faPowerOff, faFolder, faFileArchive, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faUserCog, faSkull, faPowerOff, faFolder, faFileArchive, faTimes, faInfoCircle, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import Typewriter from "typewriter-effect";
 import QuickHackBreach from "cyberpunk-quickhack";
+
+import { randomSetOfPhrases } from "../utils";
 
 Modal.setAppElement("body");
 
@@ -123,28 +125,27 @@ export function getStaticProps(){
 }
 
 export default function Portfolio({ portfolioProjects }) {
-  const listOfPhrases = [
-		"Encrypting Drives...................ENCRYPTED",
-		"<br/>Checking Partitions.................Partitions OK",
-		"<br/>Clearing MemPages...................MemPages CLEARED",
-		"<br/>You not in a hurry..................are you?"
-	];
 
   const [poweredOn, setPoweredOn] = useState(false);
   const [hacked, setHacked] = useState(false);
   const [imageCanBeShowed, showImage] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [ deviceWidth, setDeviceWidth ] = useState(window.innerWidth);
+  const [deviceWidth, setDeviceWidth] = useState(typeof window != "undefined" ? window.innerWidth : 0);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   const handleDeviceWidth = () => {
     setDeviceWidth(window.innerWidth);
   }
 
   useEffect(() => {
-    window.addEventListener("resize", handleDeviceWidth);
+    if(typeof window != "undefined"){
+			window.addEventListener("resize", handleDeviceWidth);
+    }
 
     return () => {
-      window.removeEventListener("resize", handleDeviceWidth);
+			if(typeof window != "undefined"){
+				window.removeEventListener("resize", handleDeviceWidth);
+			}
     }
   }, [])
 
@@ -201,7 +202,7 @@ export default function Portfolio({ portfolioProjects }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="overlay">3</div>
+      <div className="overlay">AV-3</div>
 
 			<div className="screen">
 				<div className={`modules-container ${poweredOn && loading ? "col": ""}`}>
@@ -214,8 +215,9 @@ export default function Portfolio({ portfolioProjects }) {
                 <br />
 								<Typewriter
 									onInit={(typewriter) => {
+                    const listOfPhrases = randomSetOfPhrases();
 										for(let i = 0; i < listOfPhrases.length; i++){
-											typewriter.typeString(listOfPhrases[i]).pauseFor(1000).callFunction(() => {
+											typewriter.changeDelay(10).typeString(listOfPhrases[i]).pauseFor(1200).callFunction(() => {
 												if(i +1 == listOfPhrases.length){
 													setLoading(false);
 												}
@@ -252,6 +254,10 @@ export default function Portfolio({ portfolioProjects }) {
 
 			<div className="controls">
         <div className="modules-container">
+          {
+          !poweredOn &&
+						<p>Press Power to turn on</p>
+          }
           <label htmlFor="switch">
             <div className={`module no-border small ${poweredOn ? "pulse power-off" : ""}`}>
 							<FontAwesomeIcon icon={faPowerOff} />
@@ -286,9 +292,52 @@ export default function Portfolio({ portfolioProjects }) {
             modalClassName="unlockedFolder"
             toggleActiveModal={() => makeModuleActive("unlockedFolder", false)}
           >
-
-            <div className="img-container">
-							<Image src="/alien.png" layout="responsive" width="500" height="500" />
+            <div className="images">
+              {
+              selectedImage == 0 &&
+                  <>
+										<div className="img-container">
+											<Image src="/alien.png" srcSet="(max-width: 414px) 400" layout="responsive" width="500" height="600" />
+										</div>
+                    {
+                      !isMobile() &&
+											<button onClick={() => setSelectedImage(1)} className="btn-transparent btn-outline-primary">
+												<FontAwesomeIcon icon={faChevronRight} />
+											</button>
+                    }
+									</>
+              }
+              {
+              selectedImage == 1 &&
+                  <>
+                    {
+                      !isMobile() &&
+											<button onClick={() => setSelectedImage(0)} className="btn-transparent btn-outline-primary">
+												<FontAwesomeIcon icon={faChevronLeft} />
+											</button>
+                    }
+										<div className="img-container">
+											<Image src="/flash.png" layout="responsive" width="500" height="600" />
+										</div>
+                  </>
+              }
+              {
+                isMobile() &&
+                  <div style={{marginTop: 10}}>
+                    {
+                    selectedImage == 0 &&
+											<button onClick={() => setSelectedImage(1)} className="btn-transparent btn-outline-primary">
+												<FontAwesomeIcon icon={faChevronRight} />
+											</button>
+                    }
+                    {
+                    selectedImage == 1 &&
+											<button onClick={() => setSelectedImage(0)} className="btn-transparent btn-outline-primary">
+												<FontAwesomeIcon icon={faChevronLeft} />
+											</button>
+                    }
+                  </div>
+              }
             </div>
           </DisplayModal>
       }

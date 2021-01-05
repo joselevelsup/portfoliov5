@@ -183,6 +183,10 @@ body {
 .controls {
 	margin: 0 10%;
 	float: right;
+
+	.modules-container {
+		padding: 0;
+	}
 }
 
 .modules-container{
@@ -194,14 +198,21 @@ body {
 	justify-content: center;
 	align-items: center;
 
+	@media screen and (max-width: 414px){
+		align-content: flex-start;
+	}
+
 	&.col {
 		flex-direction: column;
 	}
 
-	.os-name {
-		text-align: center;
+	.os-name, p {
 		color: $primary-green;
 		font-family: "Share Tech Mono", monospace;
+	}
+
+	.os-name {
+		text-align: center;
 		font-size: 36px;
 	}
 
@@ -214,6 +225,9 @@ body {
 		padding: 2px;
 		margin: 0 10px;
 
+		@media screen and (max-width: 414px){
+			margin: 10%;
+		}
 		.module-description {
 			text-align: center;
 			color: white;
@@ -543,8 +557,21 @@ div.Typewriter {
 
 .unlockedFolder {
 	.ReactModal__Content {
-		height: 65%;
+		height: 75%;
 		width: 65%;
+
+		.images {
+			display: flex;
+			align-items: center;
+
+			@media screen and (max-width: 414px){
+				flex-direction: column;
+
+				.img-container {
+					width: 375px;
+				}
+			}
+		}
 
 		@media screen and (max-width: 414px){
 			inset: 2%!important;
