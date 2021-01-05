@@ -279,8 +279,8 @@ export default function Portfolio({ portfolioProjects }) {
             <br />
             <div className="quickhack-description">
 							The code matrix has rows of characters grouped together in twos. The buffer box on the right is where the characters you've selected will be displayed, so you can keep track of where you are in the sequence. Below it is the list of sequences you can recreate.
-
-							When you first start, the top row will be highlighted. This means it's currently the active zone, so you can only pick the options in this row. Each time you enter a pair of characters, the active zone will alternate between the column you just selected, or the row. So, if your first input is in the top row, third column, you'll only be able to select the characters in the third column when inputting the next part of the sequence.
+              <br />
+							When you first start, a row or column will be highlighted. This means it's currently the active zone, so you can only pick the options in this row. Each time you enter a pair of characters, the active zone will alternate between the column you just selected, or the row. So, if your first input is in the top row, third column, you'll only be able to select the characters in the third column when inputting the next part of the sequence.
             </div>
           </DisplayModal>
       }
