@@ -137,6 +137,10 @@ body {
 	width:100%;
 	height:90vh;
 	border:none;
+
+	@media screen and (max-width: 414px){
+		height: 85vh;
+	}
 }
 
 .powered-off.container>.screen{
@@ -199,7 +203,7 @@ body {
 	align-items: center;
 
 	@media screen and (max-width: 414px){
-		align-content: flex-start;
+		align-content: space-around;
 	}
 
 	&.col {
@@ -226,7 +230,7 @@ body {
 		margin: 0 10px;
 
 		@media screen and (max-width: 414px){
-			margin: 10%;
+			margin: 6% 6% 10% 6%;
 		}
 		.module-description {
 			text-align: center;
@@ -317,6 +321,13 @@ div.Typewriter {
 		@media screen and (max-width: 414px){
 			width: 95%!important;
 			height: 95%!important;
+			inset: 2%!important;
+		}
+
+		@media screen and (max-width: 320px){
+			width: 95%!important;
+			height: 95%!important;
+			inset: 1.5%!important
 		}
 
 		.modal-header, .modal-body {
@@ -336,6 +347,16 @@ div.Typewriter {
 				position: fixed;
 				width: 90%;
 				z-index: 2;
+			}
+
+			@media screen and (max-width: 320px){
+				position: fixed;
+				width: 89%;
+				z-index: 2;
+			}
+
+			p {
+				padding-left: 0px;
 			}
 
 			.modal-header-button {
@@ -422,6 +443,10 @@ div.Typewriter {
 		@media screen and (max-width: 414px){
 			inset: 2%!important;
 		}
+
+		@media screen and (max-width: 320px){
+			inset: 1.5%!important;
+		}
 	}
 }
 
@@ -433,6 +458,10 @@ div.Typewriter {
 
 		@media screen and (max-width: 414px){
 			inset: 2%!important;
+		}
+
+		@media screen and (max-width: 320px){
+			inset: 1.5%!important;
 		}
 
 		.projects-container {
@@ -520,6 +549,10 @@ div.Typewriter {
 		@media screen and (max-width: 414px){
 			inset: 2%!important;
 		}
+
+		@media screen and (max-width: 320px){
+			inset: 1.5%!important;
+		}
 	}
 	.quickhack{
 		@media screen and (max-width: 414px){
@@ -536,6 +569,12 @@ div.Typewriter {
 					float: left;
 					vertical-align: top;
 				}
+			}
+		}
+
+		@media screen and (max-width: 320px){
+			.col {
+				padding: 1px;
 			}
 		}
 		.main{
