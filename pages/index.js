@@ -471,7 +471,7 @@ export default function Portfolio({ portfolioProjects }) {
 													<p>{project.projectDescription}</p>
 												</div>
 												<div className="project-footer">
-													<a href={project.projectLink} className="btn-transparent btn-outline-primary">
+													<a target="_blank" href={project.projectLink} className="btn-transparent btn-outline-primary">
 														Live Site
 													</a>
 												</div>
