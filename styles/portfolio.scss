@@ -349,6 +349,16 @@ div.Typewriter {
 				z-index: 2;
 			}
 
+			@media screen and (max-width: 320px){
+				position: fixed;
+				width: 89%;
+				z-index: 2;
+			}
+
+			p {
+				padding-left: 0px;
+			}
+
 			.modal-header-button {
 				cursor: pointer;
 				width: 30px;
@@ -559,6 +569,12 @@ div.Typewriter {
 					float: left;
 					vertical-align: top;
 				}
+			}
+		}
+
+		@media screen and (max-width: 320px){
+			.col {
+				padding: 1px;
 			}
 		}
 		.main{
